@@ -488,12 +488,13 @@
     }
 
     .about-image {
-      position: relative;
-      min-height: 620px;
-      background:
-        linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.4)),
-        url("garava.jpg") center / cover no-repeat;
-      border: 1px solid var(--border);
+  position: relative;
+  min-height: 900px;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.25)),
+    url("garava.jpg") center / contain no-repeat;
+  background-color: #080808;
+  border: 1px solid var(--border);
     }
 
     .about-image::before {
@@ -911,7 +912,9 @@
       }
 
       .about-image {
-        min-height: 430px;
+  min-height: 780px;
+  background-size: contain;
+  background-color: #080808;
       }
 
       .product-card {

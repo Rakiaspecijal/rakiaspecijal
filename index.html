@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Rakia Specijal – premium rakije i voćni likeri, ručno pravljeni i pažljivo birani ukusi."
+  >
+
+  <title>Rakia Specijal</title>
+
+  <style>
+    :root {
+      --black: #080808;
+      --black-soft: #111111;
+      --black-light: #191919;
+      --white: #f7f4ed;
+      --gray: #b8b4aa;
+      --gold: #c9a45c;
+      --gold-light: #ead199;
+      --border: rgba(201, 164, 92, 0.32);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    body.age-locked {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* =========================
+       AGE VERIFICATION
+    ========================== */
+
+    .age-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.94)),
+        url("garava.jpg") center / cover no-repeat;
+      transition:
+        opacity 0.7s ease,
+        visibility 0.7s ease;
+    }
+
+    .age-gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .age-card {
+      width: min(520px, 100%);
+      padding: 42px 28px;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.86);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+    }
+
+    .age-logo {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 25px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: white;
+    }
+
+    .age-label {
+      margin-bottom: 12px;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    .age-title {
+      margin-bottom: 15px;
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    .age-text {
+      max-width: 390px;
+      margin: 0 auto 28px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    .age-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .age-button {
+      min-width: 170px;
+      padding: 14px 22px;
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .age-button.accept {
+      background: var(--gold);
+      color: #090909;
+    }
+
+    .age-button.accept:hover {
+      background: var(--gold-light);
+    }
+
+    .age-button.exit {
+      background: transparent;
+      color: var(--white);
+    }
+
+    .age-button.exit:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      padding: 15px 5%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.92),
+        rgba(0, 0, 0, 0.36),
+        transparent
+      );
+      transition: background 0.35s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(5, 5, 5, 0.94);
+      border-bottom: 1px solid rgba(201, 164, 92, 0.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand-logo {
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 86px;
+      height: 86px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 164, 92, 0.75);
+      background: white;
+      transition: transform 0.35s ease;
+    }
+
+    .brand-logo img:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(20px, 3vw, 44px);
+      list-style: none;
+      font-family: Arial, sans-serif;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding: 8px 0;
+      color: var(--white);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .language-button {
+      min-width: 52px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--gold-light);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-size: 0.76rem;
+      font-weight: bold;
+      letter-spacing: 0.14em;
+      transition: 0.3s ease;
+    }
+
+    .language-button:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .menu-button {
+      display: none;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: 1px solid rgba(201, 164, 92, 0.5);
+      cursor: pointer;
+    }
+
+    .menu-button span {
+      width: 20px;
+      height: 1px;
+      background: var(--white);
+      transition: 0.3s ease;
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 150px 6% 80px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.48),
+          rgba(0, 0, 0, 0.66) 60%,
+          var(--black)
+        );
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(
+        circle at center,
+        rgba(201, 164, 92, 0.12),
+        transparent 48%
+      );
+    }
+
+    .hero-content {
+      max-width: 960px;
+      animation: revealUp 1.2s ease both;
+    }
+
+    .eyebrow {
+      margin-bottom: 22px;
+      color: var(--gold-light);
+      font-family: Arial, sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      max-width: 930px;
+      margin: 0 auto 25px;
+      font-size: clamp(3rem, 9vw, 7.6rem);
+      font-weight: normal;
+      line-height: 0.96;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-title span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-description {
+      max-width: 680px;
+      margin: 0 auto 34px;
+      color: #ddd8cc;
+      font-family: Arial, sans-serif;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.8;
+    }
+
+    .primary-button {
+      display: inline-block;
+      padding: 15px 27px;
+      background: var(--gold);
+      color: var(--black);
+      border: 1px solid var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: bold;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .primary-button:hover {
+      background: transparent;
+      color: var(--gold-light);
+    }
+
+    .scroll-note {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.63);
+      font-family: Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .scroll-note::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 42px;
+      margin: 12px auto 0;
+      background: linear-gradient(var(--gold), transparent);
+    }
+
+    /* =========================
+       SECTIONS
+    ========================== */
+
+    .section {
+      padding: 110px 6%;
+    }
+
+    .section-heading {
+      max-width: 780px;
+      margin: 0 auto 58px;
+      text-align: center;
+    }
+
+    .section-kicker {
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: normal;
+      line-height: 1.08;
+    }
+
+    .section-text {
+      color: var(--gray);
+      font-family: Arial, sans-serif;
+      line-height: 1.85;
+    }
+
+    /* =========================
+       ABOUT
+    ========================== */
+
+    .about {
+      background:
+        radial-gradient(
+          circle at 20% 50%,
+          rgba(201, 164, 92, 0.1),
+          transparent 33%
+        ),
+        var(--black);
+    }
+
+    .about-grid {
+      max-width: 1180px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 75px;
+    }
+
+    .about-image {
+      position: relative;
+      min-height: 620px;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.4)),
+        url("garava.jpg") center / cover no-repeat;
+      border: 1px solid var(--border);
+    }
+
+    .about-image::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(234, 209, 153, 0.42);
+    }
+
+    .about-content .section-title {
+      margin-bottom: 25px;
+    }
+
+    .about-content p {
+      margin-bottom: 18px;
+      color: var(--gray);
+      font-family: Arial, sans-serif;
+      line-height: 1.9;
+    }
+
+    .gold-line {
+      width: 72px;
+      height: 1px;
+      margin: 28px 0;
+      background: var(--gold);
+    }
+
+    /* =========================
+       PRODUCTS
+    ========================== */
+
+    .products {
+      background: var(--black-soft);
+    }
+
+    .product-grid {
+      max-width: 1240px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      position: relative;
+      min-height: 470px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      border: 1px solid rgba(201, 164, 92, 0.2);
+      background: #161616;
+      transition:
+        transform 0.45s ease,
+        border-color 0.45s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+    }
+
+    .product-background {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s ease;
+    }
+
+    .product-card:hover .product-background {
+      transform: scale(1.06);
+    }
+
+    .product-card:nth-child(1) .product-background {
+      background-image:
+        linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.97),
+          rgba(0, 0, 0, 0.08)
+        ),
+        url("garava.jpg");
+    }
+
+    .product-card:nth-child(2) .product-background {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(26, 26, 26, 0.35),
+          rgba(0, 0, 0, 0.96)
+        ),
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(201, 164, 92, 0.32),
+          transparent 42%
+        );
+    }
+
+    .product-card:nth-child(3) .product-background {
+      background:
+        linear-gradient(
+          145deg,
+          rgba(26, 26, 26, 0.25),
+          rgba(0, 0, 0, 0.96)
+        ),
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(120, 20, 34, 0.5),
+          transparent 45%
+        );
+    }
+
+    .product-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 32px;
+    }
+
+    .product-type {
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .product-name {
+      margin-bottom: 12px;
+      font-size: 2rem;
+      font-weight: normal;
+    }
+
+    .product-description {
+      min-height: 72px;
+      margin-bottom: 22px;
+      color: #c8c3b8;
+      font-family: Arial, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .text-link {
+      color: var(--gold-light);
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      font-weight: bold;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .text-link::after {
+      content: "  →";
+    }
+
+    /* =========================
+       BRAND STATEMENT
+    ========================== */
+
+    .statement {
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.79), rgba(0, 0, 0, 0.86)),
+        url("garava.jpg") center / cover fixed;
+    }
+
+    .statement-content {
+      max-width: 920px;
+    }
+
+    .statement-title {
+      margin-bottom: 20px;
+      color: var(--white);
+      font-size: clamp(2.5rem, 7vw, 6.3rem);
+      font-weight: normal;
+      font-style: italic;
+      line-height: 1.08;
+    }
+
+    .statement-title span {
+      color: var(--gold);
+    }
+
+    /* =========================
+       CONTACT
+    ========================== */
+
+    .contact {
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(201, 164, 92, 0.09),
+          transparent 42%
+        ),
+        #090909;
+    }
+
+    .contact-grid {
+      max-width: 1050px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-item {
+      padding: 42px 25px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s ease;
+    }
+
+    .contact-item:last-child {
+      border-right: 0;
+    }
+
+    .contact-item:hover {
+      background: rgba(201, 164, 92, 0.06);
+    }
+
+    .contact-icon {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: 1.55rem;
+    }
+
+    .contact-label {
+      margin-bottom: 10px;
+      color: var(--gray);
+      font-family: Arial, sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    .footer {
+      padding: 38px 6%;
+      background: #050505;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .footer-logo {
+      width: 65px;
+      height: 65px;
+      object-fit: cover;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .footer-text {
+      color: #8f8a80;
+      font-family: Arial, sans-serif;
+      font-size: 0.76rem;
+      line-height: 1.7;
+    }
+
+    .responsible {
+      color: var(--gold);
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 12px 20px;
+      }
+
+      .brand-logo img {
+        width: 70px;
+        height: 70px;
+      }
+
+      .menu-button {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: min(330px, 82%);
+        height: 100svh;
+        padding: 130px 35px 40px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        gap: 28px;
+        background: rgba(5, 5, 5, 0.98);
+        border-left: 1px solid var(--border);
+        transition: right 0.4s ease;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links a {
+        font-size: 0.9rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .about-image {
+        min-height: 520px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .contact-item:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 135px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.8rem, 14vw, 4.8rem);
+      }
+
+      .section {
+        padding: 85px 22px;
+      }
+
+      .age-card {
+        padding: 34px 20px;
+      }
+
+      .age-logo {
+        width: 125px;
+        height: 125px;
+      }
+
+      .age-button {
+        width: 100%;
+      }
+
+      .about-image {
+        min-height: 430px;
+      }
+
+      .product-card {
+        min-height: 440px;
+      }
+
+      .statement {
+        background-attachment: scroll;
+      }
+
+      .footer-inner {
+        text-align: center;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body class="age-locked">
+
+  <!-- AGE VERIFICATION -->
+  <div class="age-gate" id="ageGate">
+    <div class="age-card">
+      <img
+        src="logo.png"
+        alt="Rakia Specijal logo"
+        class="age-logo"
+      >
+
+      <p
+        class="age-label"
+        data-sr="Samo za punoletne"
+        data-en="Adults only"
+      >
+        Samo za punoletne
+      </p>
+
+      <h1
+        class="age-title"
+        data-sr="Da li imate 18 ili više godina?"
+        data-en="Are you 18 years of age or older?"
+      >
+        Da li imate 18 ili više godina?
+      </h1>
+
+      <p
+        class="age-text"
+        data-sr="Ovaj sajt sadrži informacije o alkoholnim pićima i namenjen je isključivo punoletnim osobama."
+        data-en="This website contains information about alcoholic beverages and is intended only for adults of legal drinking age."
+      >
+        Ovaj sajt sadrži informacije o alkoholnim pićima i namenjen je
+        isključivo punoletnim osobama.
+      </p>
+
+      <div class="age-actions">
+        <button
+          type="button"
+          class="age-button accept"
+          id="acceptAge"
+          data-sr="Imam 18+"
+          data-en="I am 18+"
+        >
+          Imam 18+
+        </button>
+
+        <button
+          type="button"
+          class="age-button exit"
+          id="exitAge"
+          data-sr="Napusti sajt"
+          data-en="Exit website"
+        >
+          Napusti sajt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <nav class="navigation">
+      <a href="#home" class="brand-logo" aria-label="Rakia Specijal">
+        <img src="logo.png" alt="Rakia Specijal">
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li>
+          <a
+            href="#home"
+            data-sr="Početna"
+            data-en="Home"
+          >
+            Početna
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#about"
+            data-sr="Naša priča"
+            data-en="Our story"
+          >
+            Naša priča
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#products"
+            data-sr="Proizvodi"
+            data-en="Products"
+          >
+            Proizvodi
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#contact"
+            data-sr="Kontakt"
+            data-en="Contact"
+          >
+            Kontakt
+          </a>
+        </li>
+      </ul>
+
+      <div class="header-actions">
+        <button
+          type="button"
+          class="language-button"
+          id="languageButton"
+          aria-label="Change language"
+        >
+          EN
+        </button>
+
+        <button
+          type="button"
+          class="menu-button"
+          id="menuButton"
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="garava.jpg"
+      >
+        <source src="hero-video.mp4" type="video/mp4">
+      </video>
+
+      <div class="hero-overlay"></div>
+      <div class="hero-glow"></div>
+
+      <div class="hero-content">
+        <p
+          class="eyebrow"
+          data-sr="Ručno pravljeno u Srbiji · Od 2023."
+          data-en="Crafted in Serbia · Since 2023"
+        >
+          Ručno pravljeno u Srbiji · Od 2023.
+        </p>
+
+        <h1
+          class="hero-title"
+          data-sr="Ukus koji <span>ostaje</span>"
+          data-en="A taste that <span>remains</span>"
+        >
+          Ukus koji <span>ostaje</span>
+        </h1>
+
+        <p
+          class="hero-description"
+          data-sr="Premium rakije i voćni likeri za lepšu polovinu života. Ručno pravljeni, pažljivo birani ukusi."
+          data-en="Premium rakija and fruit liqueurs for the finer half of life. Handcrafted with carefully selected flavours."
+        >
+          Premium rakije i voćni likeri za lepšu polovinu života.
+          Ručno pravljeni, pažljivo birani ukusi.
+        </p>
+
+        <a
+          href="#products"
+          class="primary-button"
+          data-sr="Otkrijte kolekciju"
+          data-en="Explore the collection"
+        >
+          Otkrijte kolekciju
+        </a>
+      </div>
+
+      <div
+        class="scroll-note"
+        data-sr="Istražite"
+        data-en="Discover"
+      >
+        Istražite
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+      <div class="about-grid">
+        <div class="about-image reveal"></div>
+
+        <div class="about-content reveal">
+          <p
+            class="section-kicker"
+            data-sr="Rakia Specijal"
+            data-en="Rakia Specijal"
+          >
+            Rakia Specijal
+          </p>
+
+          <h2
+            class="section-title"
+            data-sr="Tradicija pretočena u poseban ukus."
+            data-en="Tradition distilled into a distinctive taste."
+          >
+            Tradicija pretočena u poseban ukus.
+          </h2>
+
+          <div class="gold-line"></div>
+
+          <p
+            data-sr="Rakia Specijal predstavlja pažljivo odabranu kolekciju premium rakija i voćnih likera, nastalih spajanjem tradicije, kvalitetnih sastojaka i savremenog pristupa."
+            data-en="Rakia Specijal presents a carefully selected collection of premium rakija and fruit liqueurs, created by combining tradition, quality ingredients and a contemporary approach."
+          >
+            Rakia Specijal predstavlja pažljivo odabranu kolekciju
+            premium rakija i voćnih likera, nastalih spajanjem tradicije,
+            kvalitetnih sastojaka i savremenog pristupa.
+          </p>
+
+          <p
+            data-sr="Svaka boca nosi sopstveni karakter, aromu i priču – od odležalih rakija do raznovrsnih ukusa linije Lepša polovina."
+            data-en="Every bottle carries its own character, aroma and story – from aged rakija to the diverse flavours of the Lepša polovina collection."
+          >
+            Svaka boca nosi sopstveni karakter, aromu i priču – od
+            odležalih rakija do raznovrsnih ukusa linije Lepša polovina.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="section products" id="products">
+      <div class="section-heading reveal">
+        <p
+          class="section-kicker"
+          data-sr="Naša kolekcija"
+          data-en="Our collection"
+        >
+          Naša kolekcija
+        </p>
+
+        <h2
+          class="section-title"
+          data-sr="Izabrano sa karakterom"
+          data-en="Selected with character"
+        >
+          Izabrano sa karakterom
+        </h2>
+
+        <p
+          class="section-text"
+          data-sr="Otkrijte premium rakije, rakije od jabuke i voćne likere koji spajaju prepoznatljive arome i pažljivo odabrane ukuse."
+          data-en="Discover premium rakija, apple rakija and fruit liqueurs that combine distinctive aromas with carefully selected flavours."
+        >
+          Otkrijte premium rakije, rakije od jabuke i voćne likere koji
+          spajaju prepoznatljive arome i pažljivo odabrane ukuse.
+        </p>
+      </div>
+
+      <div class="product-grid">
+
+        <article class="product-card reveal">
+          <div class="product-background"></div>
+
+          <div class="product-content">
+            <p
+              class="product-type"
+              data-sr="Premium rakija"
+              data-en="Premium rakija"
+            >
+              Premium rakija
+            </p>
+
+            <h3 class="product-name">Garava</h3>
+
+            <p
+              class="product-description"
+              data-sr="Rakija od suve šljive sa bogatim, raskošnim ukusom i posebno izraženim karakterom."
+              data-en="A dried-plum rakija with a rich, opulent flavour and a distinctive character."
+            >
+              Rakija od suve šljive sa bogatim, raskošnim ukusom i
+              posebno izraženim karakterom.
+            </p>
+
+            <a
+              href="#contact"
+              class="text-link"
+              data-sr="Saznajte više"
+              data-en="Discover more"
+            >
+              Saznajte više
+            </a>
+          </div>
+        </article>
+
+        <article class="product-card reveal">
+          <div class="product-background"></div>
+
+          <div class="product-content">
+            <p
+              class="product-type"
+              data-sr="Premium rakija"
+              data-en="Premium rakija"
+            >
+              Premium rakija
+            </p>
+
+            <h3 class="product-name">Divljakuša</h3>
+
+            <p
+              class="product-description"
+              data-sr="Prefinjena rakija od divlje kruške, sa voćnom aromom, mirisom i ukusom koji se dugo pamte."
+              data-en="A refined wild-pear rakija with a fruity aroma and a flavour that leaves a lasting impression."
+            >
+              Prefinjena rakija od divlje kruške, sa voćnom aromom,
+              mirisom i ukusom koji se dugo pamte.
+            </p>
+
+            <a
+              href="#contact"
+              class="text-link"
+              data-sr="Saznajte više"
+              data-en="Discover more"
+            >
+              Saznajte više
+            </a>
+          </div>
+        </article>
+
+        <article class="product-card reveal">
+          <div class="product-background"></div>
+
+          <div class="product-content">
+            <p
+              class="product-type"
+              data-sr="Voćni likeri"
+              data-en="Fruit liqueurs"
+            >
+              Voćni likeri
+            </p>
+
+            <h3 class="product-name">Lepša polovina</h3>
+
+            <p
+              class="product-description"
+              data-sr="Linija voćnih likera različitih ukusa, namenjena uživanju samostalno, uz desert ili u koktelima."
+              data-en="A collection of fruit liqueurs designed to be enjoyed neat, with dessert or in cocktails."
+            >
+              Linija voćnih likera različitih ukusa, namenjena uživanju
+              samostalno, uz desert ili u koktelima.
+            </p>
+
+            <a
+              href="#contact"
+              class="text-link"
+              data-sr="Saznajte više"
+              data-en="Discover more"
+            >
+              Saznajte više
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="section statement">
+      <div class="statement-content reveal">
+        <p
+          class="section-kicker"
+          data-sr="Lepša polovina života"
+          data-en="The finer half of life"
+        >
+          Lepša polovina života
+        </p>
+
+        <h2
+          class="statement-title"
+          data-sr="Ručno pravljeno. <span>Pažljivo birano.</span>"
+          data-en="Handcrafted. <span>Carefully selected.</span>"
+        >
+          Ručno pravljeno. <span>Pažljivo birano.</span>
+        </h2>
+
+        <a
+          href="#contact"
+          class="primary-button"
+          data-sr="Kontaktirajte nas"
+          data-en="Contact us"
+        >
+          Kontaktirajte nas
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="section-heading reveal">
+        <p
+          class="section-kicker"
+          data-sr="Kontakt"
+          data-en="Contact"
+        >
+          Kontakt
+        </p>
+
+        <h2
+          class="section-title"
+          data-sr="Pronađite svoju Lepšu polovinu"
+          data-en="Discover your Lepša polovina"
+        >
+          Pronađite svoju Lepšu polovinu
+        </h2>
+
+        <p
+          class="section-text"
+          data-sr="Za informacije o proizvodima, poručivanje i saradnju, kontaktirajte nas putem Instagrama, imejla ili telefona."
+          data-en="For product information, orders and partnerships, contact us through Instagram, email or phone."
+        >
+          Za informacije o proizvodima, poručivanje i saradnju,
+          kontaktirajte nas putem Instagrama, imejla ili telefona.
+        </p>
+      </div>
+
+      <div class="contact-grid reveal">
+        <a
+          class="contact-item"
+          href="https://www.instagram.com/rakiaspecijal/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="contact-icon">◎</span>
+
+          <p class="contact-label">Instagram</p>
+
+          <p class="contact-value">@rakiaspecijal</p>
+        </a>
+
+        <a
+          class="contact-item"
+          href="mailto:rakiaspecijal@gmail.com"
+        >
+          <span class="contact-icon">✉</span>
+
+          <p
+            class="contact-label"
+            data-sr="Imejl"
+            data-en="Email"
+          >
+            Imejl
+          </p>
+
+          <p class="contact-value">rakiaspecijal@gmail.com</p>
+        </a>
+
+        <a
+          class="contact-item"
+          href="tel:+38163332035"
+        >
+          <span class="contact-icon">☎</span>
+
+          <p
+            class="contact-label"
+            data-sr="Telefon"
+            data-en="Phone"
+          >
+            Telefon
+          </p>
+
+          <p class="contact-value">063 332 035</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img
+        src="logo.png"
+        alt="Rakia Specijal"
+        class="footer-logo"
+      >
+
+      <p
+        class="footer-text"
+        data-sr="© 2026 Rakia Specijal. Sva prava zadržana."
+        data-en="© 2026 Rakia Specijal. All rights reserved."
+      >
+        © 2026 Rakia Specijal. Sva prava zadržana.
+      </p>
+
+      <p
+        class="responsible"
+        data-sr="18+ · Uživajte odgovorno"
+        data-en="18+ · Enjoy responsibly"
+      >
+        18+ · Uživajte odgovorno
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const body = document.body;
+    const ageGate = document.getElementById("ageGate");
+    const acceptAge = document.getElementById("acceptAge");
+    const exitAge = document.getElementById("exitAge");
+    const languageButton = document.getElementById("languageButton");
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+    const siteHeader = document.getElementById("siteHeader");
+
+    let currentLanguage =
+      localStorage.getItem("rakiaLanguage") || "sr";
+
+    function changeLanguage(language) {
+      currentLanguage = language;
+
+      document.documentElement.lang = language;
+      localStorage.setItem("rakiaLanguage", language);
+
+      document.querySelectorAll("[data-sr][data-en]").forEach((element) => {
+        const translatedText = element.dataset[language];
+
+        if (translatedText.includes("<")) {
+          element.innerHTML = translatedText;
+        } else {
+          element.textContent = translatedText;
+        }
+      });
+
+      languageButton.textContent =
+        language === "sr" ? "EN" : "SR";
+
+      document.title =
+        language === "sr"
+          ? "Rakia Specijal"
+          : "Rakia Specijal | Premium Rakija";
+    }
+
+    languageButton.addEventListener("click", () => {
+      const nextLanguage =
+        currentLanguage === "sr" ? "en" : "sr";
+
+      changeLanguage(nextLanguage);
+    });
+
+    acceptAge.addEventListener("click", () => {
+      localStorage.setItem("rakiaAgeConfirmed", "true");
+
+      ageGate.classList.add("hidden");
+      body.classList.remove("age-locked");
+    });
+
+    exitAge.addEventListener("click", () => {
+      window.location.href = "https://www.google.com";
+    });
+
+    if (
+      localStorage.getItem("rakiaAgeConfirmed") === "true"
+    ) {
+      ageGate.classList.add("hidden");
+      body.classList.remove("age-locked");
+    }
+
+    menuButton.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 40) {
+        siteHeader.classList.add("scrolled");
+      } else {
+        siteHeader.classList.remove("scrolled");
+      }
+    });
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.13
+      }
+    );
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+    changeLanguage(currentLanguage);
+  </script>
+
+</body>
+    </html>
